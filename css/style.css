@@ -4,13 +4,19 @@ body {
   background-image: url(../image/dog-paws.gif);
   background-repeat: repeat-x repeat-y;
   background-attachment: fixed;
-  color: #0a7966;
+  color: #108471;
   font-family: sans-serif;
   text-align: center;
   overflow: hidden;
 }
 
-h1 { font-size: 18px; margin: 4px; }
+h1 { 
+  font-size: 18px; 
+  margin: 4px; 
+  color: #0e957f;
+  -webkit-text-stroke: 3px white;
+  paint-order: stroke fill;
+}
 
 canvas {
   background: #feecf2;
@@ -20,7 +26,12 @@ canvas {
 
 #ui { margin: 4px; }
 
-#score { font-size: 14px; color: #000;}
+#score { 
+  font-size: 14px; 
+  color: #000;
+  -webkit-text-stroke: 2px white;
+  paint-order: stroke fill;
+}
 
 #chain {
   display:none;  
