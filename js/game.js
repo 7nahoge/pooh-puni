@@ -32,14 +32,14 @@ let effects = [];
 // 📦 画像を固定ロード
 function loadImages(){
   const paths = [
-    "image/pooh1.png",
-    "image/pooh2.png",
-    "image/pooh3.png",
-    "image/pooh4.png",
-    "image/pooh5.png",
-    "image/pooh6.png",
-    "image/pooh7.png",
-    "image/pooh8.png" 
+    "image/img1.png",
+    "image/img2.png",
+    "image/img3.png",
+    "image/img4.png",
+    "image/img5.png",
+    "image/img6.png",
+    "image/img7.png",
+    "image/img8.png" 
   ];
 
   imgs = paths.map(p=>{
