@@ -220,9 +220,6 @@ function check(){
         if(group.length>=4){
           cleared += group.length;
 
-/*           for(let [gx,gy] of group){
-            grid[gy][gx]=null;
-          } */
           for(let [gx,gy] of group){
             addEffect(gx,gy);
             grid[gy][gx]=null;
