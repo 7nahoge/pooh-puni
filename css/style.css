@@ -1,7 +1,7 @@
 @charset "UTF-8";
 body {
   margin: 0;
-  background-image: url(../image/dog-paws.gif);
+  background-image: url(../image/background.gif);
   background-repeat: repeat-x repeat-y;
   background-attachment: fixed;
   color: #108471;
