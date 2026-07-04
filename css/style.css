@@ -1,1 +1,27 @@
+@charset "UTF-8";
+body {
+  margin: 0;
+  background-image: url(../image/dog-paws.gif);
+  background-repeat: repeat-x repeat-y;
+  background-attachment: fixed;
+  color: #0a7966;
+  font-family: sans-serif;
+  text-align: center;
+  overflow: hidden;
+}
 
+h1 { font-size: 18px; margin: 4px; }
+
+canvas {
+  background: #feecf2;
+  border: 2px solid rgb(255, 153, 214);
+  touch-action: none;
+}
+
+#ui { margin: 4px; }
+
+#score { font-size: 14px; color: #000;}
+
+#chain {
+  display:none;  
+}
