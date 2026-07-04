@@ -27,6 +27,7 @@ let lockControl = false;
 let bounceMap;
 let lastDrop = 0;
 
+let effects = [];
 
 // 📦 画像を固定ロード
 function loadImages(){
@@ -218,7 +219,12 @@ function check(){
 
         if(group.length>=4){
           cleared += group.length;
+
+/*           for(let [gx,gy] of group){
+            grid[gy][gx]=null;
+          } */
           for(let [gx,gy] of group){
+            addEffect(gx,gy);
             grid[gy][gx]=null;
           }
         }
@@ -272,10 +278,49 @@ function draw(){
           bounceMap[y][x]
         );
       }
-
     }
   }
 
+function drawEffects(){
+
+    for(let i=effects.length-1;i>=0;i--){
+
+        const e = effects[i];
+
+        e.life--;
+
+        if(e.life<=0){
+            effects.splice(i,1);
+            continue;
+        }
+
+        e.x += Math.cos(e.angle) * e.speed;
+        e.y += Math.sin(e.angle) * e.speed;
+
+        e.alpha = e.life / 30;
+
+        ctx.save();
+
+        ctx.globalAlpha = e.alpha;
+
+        ctx.fillStyle = e.color;
+
+        ctx.beginPath();
+
+        ctx.arc(
+            e.x,
+            e.y,
+            e.size,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+        ctx.restore();
+    }
+
+}
   if(current){
     drawCat(
       imgs[current.cat],
@@ -284,6 +329,7 @@ function draw(){
       current.bounce
     );
   }
+  drawEffects();
 }
 
 function drawCat(img,x,y,bounce=0){
@@ -303,6 +349,34 @@ function drawCat(img,x,y,bounce=0){
     w,
     h
   );
+}
+
+function addEffect(gx, gy){
+    const count = 10;   // 星の数
+    for(let i=0;i<count;i++){
+
+        effects.push({
+
+            x: gx * SIZE + SIZE / 2,
+            y: gy * SIZE + SIZE / 2,
+
+            angle: Math.random() * Math.PI * 2,
+            speed: 1 + Math.random() * 3,
+
+            size: 2 + Math.random() * 4,
+
+            life: 30,
+            alpha: 1,
+
+            color: [
+                "#fff799",
+                "#ffe066",
+                "#ffd43b",
+                "#ffffff"
+            ][Math.floor(Math.random()*4)]
+
+        });
+    }
 }
 
 function updateUI() {
