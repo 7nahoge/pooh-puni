@@ -24,6 +24,12 @@ canvas {
   touch-action: none;
 }
 
+footer{
+    margin-top:2px;
+    font-size:12px;
+    color:#666;
+}
+
 #ui { margin: 4px; }
 
 #score { 
