@@ -1,4 +1,3 @@
-
 const c = document.getElementById("c");
 const ctx = c.getContext("2d");
 
@@ -9,7 +8,7 @@ const chainLabel = document.getElementById("chain");
 const COL = 6;
 const ROW = 10;
 const SIZE = 60;
-const DROP_INTERVAL = 450; // 450msごとに1マス
+const DROP_INTERVAL = 500; // 500msごとに1マス
 
 c.width = COL * SIZE;
 c.height = ROW * SIZE;
@@ -278,46 +277,47 @@ function draw(){
     }
   }
 
-function drawEffects(){
+  function drawEffects(){
 
-    for(let i=effects.length-1;i>=0;i--){
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
 
-        const e = effects[i];
+      for(let i=effects.length-1;i>=0;i--){
 
-        e.life--;
+          const e = effects[i];
 
-        if(e.life<=0){
-            effects.splice(i,1);
-            continue;
-        }
+          e.life--;
 
-        e.x += Math.cos(e.angle) * e.speed;
-        e.y += Math.sin(e.angle) * e.speed;
+          if(e.life<=0){
+              effects.splice(i,1);
+              continue;
+          }
 
-        e.alpha = e.life / 30;
+          e.x += Math.cos(e.angle) * e.speed;
+          e.y += Math.sin(e.angle) * e.speed;
 
-        ctx.save();
+          // 少し下へ落ちる
+          e.speed *= 0.97;
 
-        ctx.globalAlpha = e.alpha;
+          const alpha = e.life / 40;
 
-        ctx.fillStyle = e.color;
+          ctx.save();
 
-        ctx.beginPath();
+          ctx.globalAlpha = alpha;
 
-        ctx.arc(
-            e.x,
-            e.y,
-            e.size,
-            0,
-            Math.PI*2
-        );
+          ctx.font = `${e.size}px sans-serif`;
 
-        ctx.fill();
+          ctx.fillText(
+              e.emoji,
+              e.x,
+              e.y
+          );
 
-        ctx.restore();
-    }
+          ctx.restore();
+      }
 
-}
+  }
+        
   if(current){
     drawCat(
       imgs[current.cat],
@@ -349,7 +349,21 @@ function drawCat(img,x,y,bounce=0){
 }
 
 function addEffect(gx, gy){
-    const count = 10;   // 星の数
+    const emojis = [
+        "⭐",
+        "✨",
+        "💖",
+        "💕",
+        "💗",
+        "💛",
+        "🌟",
+        "🎉",
+        "👑",
+        "🐾"
+    ];
+
+    const count = 12;
+
     for(let i=0;i<count;i++){
 
         effects.push({
@@ -358,23 +372,19 @@ function addEffect(gx, gy){
             y: gy * SIZE + SIZE / 2,
 
             angle: Math.random() * Math.PI * 2,
-            speed: 1 + Math.random() * 3,
+            speed: 2 + Math.random() * 4,
 
-            size: 2 + Math.random() * 4,
+            size: 18 + Math.random() * 10,
 
-            life: 30,
-            alpha: 1,
+            life: 40,
 
-            color: [
-                "#fff799",
-                "#ffe066",
-                "#ffd43b",
-                "#ffffff"
-            ][Math.floor(Math.random()*4)]
+            emoji: emojis[
+                Math.floor(Math.random() * emojis.length)
+            ]
 
         });
     }
-}
+}    
 
 function updateUI() {
     scoreLabel.innerText = "SCORE: " + score;
