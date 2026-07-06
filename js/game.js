@@ -381,7 +381,6 @@ function addEffect(gx, gy){
             emoji: emojis[
                 Math.floor(Math.random() * emojis.length)
             ]
-
         });
     }
 }    
