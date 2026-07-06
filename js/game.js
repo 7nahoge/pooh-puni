@@ -9,7 +9,7 @@ const chainLabel = document.getElementById("chain");
 const COL = 6;
 const ROW = 10;
 const SIZE = 60;
-const DROP_INTERVAL = 350; // 350msごとに1マス
+const DROP_INTERVAL = 450; // 450msごとに1マス
 
 c.width = COL * SIZE;
 c.height = ROW * SIZE;
