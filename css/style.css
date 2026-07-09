@@ -42,3 +42,61 @@ footer{
 #chain {
   display:none;  
 }
+
+.popup {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(255, 240, 248, 0.72);
+  z-index: 10;
+}
+
+.popup.hidden {
+  display: none;
+}
+
+.popupBox {
+  width: min(280px, calc(100vw - 48px));
+  padding: 22px 18px;
+  background: #fff;
+  border: 3px solid rgb(255, 153, 214);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(80, 40, 70, 0.2);
+}
+
+.popupTitle {
+  font-size: 24px;
+  font-weight: bold;
+  color: #0b806c;
+  -webkit-text-stroke: 3px white;
+  paint-order: stroke fill;
+}
+
+.popupScore {
+  margin: 10px 0 16px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #000;
+}
+
+.popupActions {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+#restartBtn,
+#endBtn {
+  min-width: 108px;
+  padding: 8px 16px;
+  border: 2px solid rgb(255, 153, 214);
+  border-radius: 8px;
+  background: #feecf2;
+  color: #0b806c;
+  font-weight: bold;
+}
+
+#endBtn {
+  background: #fff;
+}
