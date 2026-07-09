@@ -4,6 +4,10 @@ const ctx = c.getContext("2d");
 const startBtn = document.getElementById("startBtn");
 const scoreLabel = document.getElementById("score");
 const chainLabel = document.getElementById("chain");
+const gameOverPopup = document.getElementById("gameOverPopup");
+const finalScore = document.getElementById("finalScore");
+const restartBtn = document.getElementById("restartBtn");
+const endBtn = document.getElementById("endBtn");
 
 const COL = 6;
 const ROW = 10;
@@ -58,10 +62,11 @@ function initGrid(){
   );
 }
 
-document.getElementById("startBtn").onclick = async ()=>{
+async function startGame(){
   cancelAnimationFrame(animationId);
 
   running = false;
+  hideGameOverPopup();
 
   loadImages();
   initGrid();
@@ -79,7 +84,25 @@ document.getElementById("startBtn").onclick = async ()=>{
 
   spawn();
   animationId = requestAnimationFrame(loop);
-};
+}
+
+startBtn.onclick = startGame;
+restartBtn.onclick = startGame;
+endBtn.onclick = endGame;
+
+function endGame(){
+  cancelAnimationFrame(animationId);
+
+  running = false;
+  current = null;
+  score = 0;
+  chain = 0;
+  effects = [];
+
+  hideGameOverPopup();
+  updateUI();
+  ctx.clearRect(0,0,c.width,c.height);
+}
 
 function waitImagesLoaded(){
 
@@ -150,9 +173,23 @@ function gameOver(){
   running = false;
   current = null;
 
-  alert(
-    "GAME OVER\nSCORE:"+score
-  );
+  showGameOverPopup();
+}
+
+function showGameOverPopup(){
+  if(finalScore){
+    finalScore.innerText = "SCORE: " + score;
+  }
+
+  if(gameOverPopup){
+    gameOverPopup.classList.remove("hidden");
+  }
+}
+
+function hideGameOverPopup(){
+  if(gameOverPopup){
+    gameOverPopup.classList.add("hidden");
+  }
 }
 
 function can(x,y){
@@ -449,20 +486,39 @@ document.addEventListener("keydown",e=>{
 });
 
 // touch
-let sx,sy;
-c.addEventListener("touchstart",e=>{
-  sx=e.touches[0].clientX;
-  sy=e.touches[0].clientY;
-});
+let tx,ty;
+const SWIPE = 30;
+const TOUCH_MOVE_INTERVAL = 200;
+const TOUCH_DROP_INTERVAL = 200;
+let lastTouchMove = 0;
+let lastTouchDrop = 0;
 
-c.addEventListener("touchend",e=>{
-  let dx=e.changedTouches[0].clientX - sx;
-  let dy=e.changedTouches[0].clientY - sy;
+c.addEventListener("touchstart",e=>{
+  e.preventDefault();
+  tx=e.touches[0].clientX;
+  ty=e.touches[0].clientY;
+},{passive:false});
+
+c.addEventListener("touchmove",e=>{
+  e.preventDefault();
+
+  const dx=e.touches[0].clientX - tx;
+  const dy=e.touches[0].clientY - ty;
+  const now = Date.now();
 
   if(Math.abs(dx)>Math.abs(dy)){
-    if(dx>30) move(1,0);
-    else if(dx<-30) move(-1,0);
-  } else {
-    if(dy>30) drop();
+    if(dx>SWIPE && now - lastTouchMove > TOUCH_MOVE_INTERVAL){
+      move(1,0);
+      lastTouchMove = now;
+      tx=e.touches[0].clientX;
+    }else if(dx<-SWIPE && now - lastTouchMove > TOUCH_MOVE_INTERVAL){
+      move(-1,0);
+      lastTouchMove = now;
+      tx=e.touches[0].clientX;
+    }
+  }else if(dy>SWIPE && now - lastTouchDrop > TOUCH_DROP_INTERVAL){
+    drop();
+    lastTouchDrop = now;
+    ty=e.touches[0].clientY;
   }
-});
+},{passive:false});
