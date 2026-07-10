@@ -63,6 +63,7 @@ function initGrid(){
 }
 
 async function startGame(){
+  initAudio();
   cancelAnimationFrame(animationId);
 
   running = false;
@@ -173,6 +174,11 @@ function gameOver(){
   running = false;
   current = null;
 
+  if(score > 5000){
+    playVictoryGameOverMusic();
+  }else{
+    playGameOverMusic();
+  }
   showGameOverPopup();
 }
 
@@ -209,6 +215,7 @@ function lock(){
   grid[current.y][current.x] = current.cat;
 
   bounceMap[current.y][current.x] = 1;
+  playCuteDogSound();
 
   sanitizeGrid(); 
 
@@ -222,6 +229,7 @@ function drop(){
 
   if(can(current.x,current.y+1)){
     current.y++;
+    playFallSound();
   }else{
     lock();
   }
@@ -269,6 +277,7 @@ function check(){
     chain++;
     score += cleared * 10 + chain * 5;
     updateUI();
+    playDogPartySound(chain, cleared);
   } else {
     chain=0;
     if(chainLabel){
@@ -454,6 +463,7 @@ function loop(time){
 }
 
 function applyGravity(){
+  let dropped = 0;
 
   for(let x=0;x<COL;x++){
 
@@ -462,18 +472,31 @@ function applyGravity(){
     for(let y=ROW-1;y>=0;y--){
 
       if(grid[y][x]!==null){
-        stack.push(grid[y][x]);
+        stack.push({
+          cat: grid[y][x],
+          fromY: y
+        });
       }
     }
 
     for(let y=ROW-1;y>=0;y--){
 
       if(stack.length){
-        grid[y][x]=stack.shift();
+        const item = stack.shift();
+        grid[y][x]=item.cat;
+
+        if(item.fromY !== y){
+          bounceMap[y][x] = 1;
+          dropped++;
+        }
       }else{
         grid[y][x]=null;
       }
     }
+  }
+
+  if(dropped > 0){
+    playCuteDogSound(Math.min(1, 0.65 + dropped * 0.1));
   }
 }
 
