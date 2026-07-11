@@ -116,7 +116,7 @@ function startBgm(){
   const now = audioCtx.currentTime;
   bgmGain.gain.cancelScheduledValues(now);
   bgmGain.gain.setValueAtTime(0.0001, now);
-  bgmGain.gain.linearRampToValueAtTime(0.05, now + 0.4);
+  bgmGain.gain.linearRampToValueAtTime(0.04, now + 0.4);
 
   let nextSectionAt = now + BGM_LOOKAHEAD;
 
@@ -148,7 +148,7 @@ function stopBgm(){
   if(fadingGain){
     const now = audioCtx.currentTime;
     fadingGain.gain.cancelScheduledValues(now);
-    fadingGain.gain.setValueAtTime(fadingGain.gain.value || 0.05, now);
+    fadingGain.gain.setValueAtTime(fadingGain.gain.value || 0.04, now);
     fadingGain.gain.linearRampToValueAtTime(0.0001, now + 0.3);
     window.setTimeout(() => {
       fadingGain.disconnect();
