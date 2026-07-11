@@ -1,9 +1,9 @@
 /* 
-  開始/終了、落下、スポーン、メインループ、キーボード/タッチ操作
+  ゲーム開始/終了、落下、スポーン、メインループ、キーボード/タッチ操作
 */
 
 // ゲームの状態を初期化してプレイを開始する
-async function startGame(){
+async function startGame() {
   initAudio();
   cancelAnimationFrame(animationId);
   stopBgm();
@@ -30,7 +30,7 @@ async function startGame(){
 }
 
 // ゲームを終了して盤面やスコアをリセットする
-function endGame(){
+function endGame() {
   cancelAnimationFrame(animationId);
   stopBgm();
 
@@ -46,10 +46,10 @@ function endGame(){
 }
 
 // 新しい操作中のぷにを盤面上部に生成する
-function spawn(){
+function spawn() {
   let r = rand();
 
-  if(r < 0 || r >= imgs.length || isNaN(r)){
+  if (r < 0 || r >= imgs.length || isNaN(r)) {
     r = 0;
   }
 
@@ -60,20 +60,20 @@ function spawn(){
     bounce: 0
   };
 
-  if(!can(current.x, current.y)){
+  if (!can(current.x, current.y)) {
     gameOver();
   }
 }
 
 // ゲームオーバー状態にして効果音とポップアップを出す
-function gameOver(){
+function gameOver() {
   running = false;
   current = null;
   stopBgm();
 
-  if(score > 5000){
+  if (score > 5000) {
     playVictoryGameOverMusic();
-  }else{
+  } else {
     playGameOverMusic();
   }
 
@@ -81,16 +81,16 @@ function gameOver(){
 }
 
 // 操作中のぷにを指定方向に移動する
-function move(dx, dy){
-  if(!current || lockControl) return;
+function move(dx, dy) {
+  if (!current || lockControl) return;
 
-  if(can(current.x + dx, current.y + dy)){
+  if (can(current.x + dx, current.y + dy)) {
     current.x += dx;
   }
 }
 
 // 操作中のぷにを盤面に固定して連鎖判定へ進める
-function lock(){
+function lock() {
   grid[current.y][current.x] = current.cat;
   bounceMap[current.y][current.x] = 1;
   playCuteDogSound();
@@ -101,21 +101,21 @@ function lock(){
 }
 
 // 操作中のぷにを1マス下げ、下げられない場合は固定する
-function drop(){
-  if(lockControl) return;
+function drop() {
+  if (lockControl) return;
 
-  if(can(current.x, current.y + 1)){
+  if (can(current.x, current.y + 1)) {
     current.y++;
-  }else{
+  } else {
     lock();
   }
 }
 
 // ゲームのメインループとして落下・描画・バウンド減衰を行う
-function loop(time){
-  if(!running) return;
+function loop(time) {
+  if (!running) return;
 
-  if(time - lastDrop > DROP_INTERVAL){
+  if (time - lastDrop > DROP_INTERVAL) {
     drop();
     lastDrop = time;
   }
@@ -123,10 +123,10 @@ function loop(time){
   draw();
   animationId = requestAnimationFrame(loop);
 
-  for(let y = 0; y < ROW; y++){
-    for(let x = 0; x < COL; x++){
+  for (let y = 0; y < ROW; y++) {
+    for (let x = 0; x < COL; x++) {
       bounceMap[y][x] *= 0.93;
-      if(bounceMap[y][x] < 0.01) bounceMap[y][x] = 0;
+      if (bounceMap[y][x] < 0.01) bounceMap[y][x] = 0;
     }
   }
 }
@@ -139,10 +139,10 @@ document.addEventListener(
   "keydown",
   // キーボード入力で左右移動と下方向への落下を行う
   e => {
-    if(!current) return;
-    if(e.key === "ArrowLeft") move(-1, 0);
-    if(e.key === "ArrowRight") move(1, 0);
-    if(e.key === "ArrowDown") drop();
+    if (!current) return;
+    if (e.key === "ArrowLeft") move(-1, 0);
+    if (e.key === "ArrowRight") move(1, 0);
+    if (e.key === "ArrowDown") drop();
   }
 );
 
@@ -161,7 +161,7 @@ c.addEventListener(
     tx = e.touches[0].clientX;
     ty = e.touches[0].clientY;
   },
-  {passive: false}
+  { passive: false }
 );
 
 c.addEventListener(
@@ -174,21 +174,21 @@ c.addEventListener(
     const dy = e.touches[0].clientY - ty;
     const now = Date.now();
 
-    if(Math.abs(dx) > Math.abs(dy)){
-      if(dx > SWIPE && now - lastTouchMove > TOUCH_MOVE_INTERVAL){
+    if (Math.abs(dx) > Math.abs(dy)) {
+      if (dx > SWIPE && now - lastTouchMove > TOUCH_MOVE_INTERVAL) {
         move(1, 0);
         lastTouchMove = now;
         tx = e.touches[0].clientX;
-      }else if(dx < -SWIPE && now - lastTouchMove > TOUCH_MOVE_INTERVAL){
+      } else if (dx < -SWIPE && now - lastTouchMove > TOUCH_MOVE_INTERVAL) {
         move(-1, 0);
         lastTouchMove = now;
         tx = e.touches[0].clientX;
       }
-    }else if(dy > SWIPE && now - lastTouchDrop > TOUCH_DROP_INTERVAL){
+    } else if (dy > SWIPE && now - lastTouchDrop > TOUCH_DROP_INTERVAL) {
       drop();
       lastTouchDrop = now;
       ty = e.touches[0].clientY;
     }
   },
-  {passive: false}
+  { passive: false }
 );

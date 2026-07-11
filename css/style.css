@@ -1,102 +1,178 @@
 @charset "UTF-8";
+
+/* ページ全体の基本表示設定 */
 body {
+  /* ブラウザ標準の余白をなくす */
   margin: 0;
+  /* 背景画像 */
   background-image: url(../image/background.gif);
+  /* 背景画像を縦横に繰り返す */
   background-repeat: repeat-x repeat-y;
+  /* スクロールしても背景を固定 */
   background-attachment: fixed;
+  /* 基本の文字色 */
   color: #108471;
+  /* ページ全体のフォント */
   font-family: sans-serif;
+  /* テキスト中央寄せ */
   text-align: center;
+  /* 画面外にはみ出した部分を隠す */
   overflow: hidden;
 }
 
-h1 { 
-  font-size: 18px; 
-  margin: 4px; 
+/* タイトル文字 */
+h1 {
+  /* 文字サイズ */
+  font-size: 18px;
+  /* タイトル周りの余白設定 */
+  margin: 4px;
+  /* 文字色 */
   color: #0b806c;
+  /* タイトル文字縁取り */
   -webkit-text-stroke: 3px white;
+  /* 縁取りを文字の塗りより先に描画する */
   paint-order: stroke fill;
 }
 
+/* ゲーム画面のcanvas表示 */
 canvas {
+  /* 盤面の背景色 */
   background: #feecf2;
+  /* 盤面の枠線 */
   border: 2px solid rgb(255, 153, 214);
+  /* タッチ操作時のブラウザ標準ジェスチャーを無効にする */
   touch-action: none;
 }
 
+/* フッター */
 footer{
+    /* 上側の余白 */
     margin-top:2px;
+    /* 文字サイズ */
     font-size:12px;
+    /* 文字色 */
     color:#666;
 }
 
-#ui { margin: 4px; }
+/* スコアなどのUI全体の余白 */
+#ui {
+  /* UI周りの余白を設定する */
+  margin: 4px;
+}
 
-#score { 
-  font-size: 14px; 
+/* スコア表示 */
+#score {
+  /* 文字サイズ */
+  font-size: 14px;
+  /* 文字色 */
   color: #000;
+  /* 文字縁取り */
   -webkit-text-stroke: 2px white;
+  /* 縁取りを文字の塗りより先に描画する */
   paint-order: stroke fill;
 }
 
+/* 連鎖表示は現在非表示 */
 #chain {
-  display:none;  
+  /* 連鎖テキストを画面に表示しない */
+  display:none;
 }
 
+/* ポップアップ全体の背景と配置 */
 .popup {
+  /* 画面に対して固定表示 */
   position: fixed;
+  /* 画面全体を覆う */
   inset: 0;
+  /* 中身をグリッドで配置 */
   display: grid;
+  /* ポップアップボックスを中央に */
   place-items: center;
+  /* 半透明の背景色 */
   background: rgba(255, 240, 248, 0.72);
+  /* ゲーム画面より前面に表示 */
   z-index: 10;
 }
 
+/* 非表示状態のポップアップ */
 .popup.hidden {
+  /* hiddenクラスが付いたら表示しない */
   display: none;
 }
 
+/* ポップアップの白いボックス部分 */
 .popupBox {
+  /* 画面幅に収まる最大幅 */
   width: min(280px, calc(100vw - 48px));
+  /* ボックス内側の余白 */
   padding: 22px 18px;
+  /* 背景色 */
   background: #fff;
+  /* 枠線 */
   border: 3px solid rgb(255, 153, 214);
+  /* 角を少し丸く */
   border-radius: 8px;
+  /* 影を付けて浮かせる */
   box-shadow: 0 8px 24px rgba(80, 40, 70, 0.2);
 }
 
+/* ポップアップタイトル */
 .popupTitle {
+  /* 文字サイズ */
   font-size: 24px;
+  /* 太字 */
   font-weight: bold;
+  /* 文字色 */
   color: #0b806c;
+  /* 文字縁取り */
   -webkit-text-stroke: 3px white;
+  /* 縁取りを文字の塗りより先に描画 */
   paint-order: stroke fill;
 }
 
+/* ポップアップ内のスコア表示 */
 .popupScore {
+  /* 上下左右の余白 */
   margin: 10px 0 16px;
+  /* 文字サイズ */
   font-size: 18px;
+  /* 太字 */
   font-weight: bold;
+  /* 文字色 */
   color: #000;
 }
 
+/* ポップアップ内のボタン配置 */
 .popupActions {
+  /* ボタンを横並びに */
   display: flex;
+  /* ボタンを中央寄せ */
   justify-content: center;
+  /* ボタン同士の間隔 */
   gap: 10px;
 }
 
+/* リスタートボタンと終了ボタンの共通見た目 */
 #restartBtn,
 #endBtn {
+  /* ボタンの最小幅 */
   min-width: 108px;
+  /* ボタン内側の余白 */
   padding: 8px 16px;
+  /* ボタンの枠線 */
   border: 2px solid rgb(255, 153, 214);
+  /* ボタンの角を丸く */
   border-radius: 8px;
+  /* ボタンの背景色 */
   background: #feecf2;
+  /* ボタンの文字色 */
   color: #0b806c;
+  /* ボタン文字を太字に */
   font-weight: bold;
 }
 
+/* 終了ボタンだけ背景色を白にする */
 #endBtn {
+  /* 背景色 */
   background: #fff;
 }
