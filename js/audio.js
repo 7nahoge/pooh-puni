@@ -14,6 +14,8 @@ const BGM_BEAT = 60 / BGM_BPM;
 const BGM_SECTION_BEATS = 32;
 const BGM_SECTION_LENGTH = BGM_BEAT * BGM_SECTION_BEATS;
 const BGM_LOOKAHEAD = 0.08;
+const BGM_VOLUME = 0.04;
+const BGM_MOBILE_VOLUME = 0.018;
 const NOTE_STEPS = {C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11};
 
 const BGM_MELODY = [
@@ -51,6 +53,11 @@ function initAudio(){
   if(audioCtx.state === "suspended"){
     audioCtx.resume();
   }
+}
+
+function getBgmVolume(){
+  const isMobileLike = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
+  return isMobileLike ? BGM_MOBILE_VOLUME : BGM_VOLUME;
 }
 
 function playTone({freq, startAt, length, type = "triangle", volume = .18, attack = .02, release = .05, filterFreq = null, filterEnd = null, bend = 1, destination = audioCtx.destination}){
@@ -114,9 +121,10 @@ function startBgm(){
   bgmGain.connect(audioCtx.destination);
 
   const now = audioCtx.currentTime;
+  const volume = getBgmVolume();
   bgmGain.gain.cancelScheduledValues(now);
   bgmGain.gain.setValueAtTime(0.0001, now);
-  bgmGain.gain.linearRampToValueAtTime(0.04, now + 0.4);
+  bgmGain.gain.linearRampToValueAtTime(volume, now + 0.4);
 
   let nextSectionAt = now + BGM_LOOKAHEAD;
 
@@ -148,7 +156,7 @@ function stopBgm(){
   if(fadingGain){
     const now = audioCtx.currentTime;
     fadingGain.gain.cancelScheduledValues(now);
-    fadingGain.gain.setValueAtTime(fadingGain.gain.value || 0.04, now);
+    fadingGain.gain.setValueAtTime(fadingGain.gain.value || getBgmVolume(), now);
     fadingGain.gain.linearRampToValueAtTime(0.0001, now + 0.3);
     window.setTimeout(() => {
       fadingGain.disconnect();
