@@ -2,6 +2,7 @@
   canvas描画
 */
 
+// 盤面・操作中のぷに・演出エフェクトをcanvasへ描画する
 function draw(){
   ctx.clearRect(0, 0, c.width, c.height);
 
@@ -20,6 +21,7 @@ function draw(){
   drawEffects();
 }
 
+// 画像をバウンド量に合わせて伸縮させながら描画する
 function drawCat(img, x, y, bounce = 0){
   if(!img || !img.complete) return;
 
@@ -31,6 +33,7 @@ function drawCat(img, x, y, bounce = 0){
   ctx.drawImage(img, x - (w - SIZE) / 2, y - (h - SIZE), w, h);
 }
 
+// 消去演出の粒を動かしながら描画し、寿命切れを削除する
 function drawEffects(){
   ctx.textAlign = "center";
   ctx.textBaseline = "middle";
@@ -56,6 +59,7 @@ function drawEffects(){
   }
 }
 
+// 指定したマスの中心から消去演出の粒を発生させる
 function addEffect(gx, gy){
   const marks = ["*", "+", "o", "!", "x"];
 

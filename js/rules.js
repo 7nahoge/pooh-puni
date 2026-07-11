@@ -2,10 +2,16 @@
   消去判定、連鎖、重力
 */
 
+// 同じ種類が4つ以上つながっている場所を探して消去する
 function check(){
-  let visited = Array.from({length: ROW}, () => Array(COL).fill(false));
+  let visited = Array.from(
+    {length: ROW},
+    // 1行分の訪問済みフラグ配列を作る
+    () => Array(COL).fill(false)
+  );
   let cleared = 0;
 
+  // 指定マスから同じ種類のつながりを深さ優先探索で集める
   function dfs(x, y, color, group){
     if(x < 0 || y < 0 || x >= COL || y >= ROW || visited[y][x] || grid[y][x] !== color) return;
 
@@ -49,6 +55,7 @@ function check(){
   return cleared;
 }
 
+// 重力と消去判定を繰り返して連鎖をすべて解決する
 function resolveChains(){
   sanitizeGrid();
   lockControl = true;
@@ -59,11 +66,17 @@ function resolveChains(){
     if(cleared === 0) break;
   }
 
-  setTimeout(() => {
-    lockControl = false;
-  }, 300);
+  // 連鎖処理後に操作ロックを解除する
+  setTimeout(
+    // 連鎖処理後に操作ロックを解除する
+    () => {
+      lockControl = false;
+    },
+    300
+  );
 }
 
+// 各列のぷにを下へ詰め、落下があればバウンドと効果音を出す
 function applyGravity(){
   let dropped = 0;
 

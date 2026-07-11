@@ -35,14 +35,20 @@ const BGM_BASS = [
 ];
 
 const BGM_HARMONY = [[0,"E4",4],[4,"F4",4],[8,"E4",4],[12,"F4",4],[16,"E4",4],[20,"F4",4],[24,"E4",4],[28,"G4",4]];
-const BGM_ARPEGGIO = Array.from({length: BGM_SECTION_BEATS}, (_, i) => [i + .5, ["G5","C6","E5","A5"][i % 4], .2]);
+const BGM_ARPEGGIO = Array.from(
+  {length: BGM_SECTION_BEATS},
+  // BGM用のアルペジオ音符を拍ごとに生成する
+  (_, i) => [i + .5, ["G5","C6","E5","A5"][i % 4], .2]
+);
 
+// 音名を周波数に変換する
 function noteFreq(name){
   const [, tone, octave] = name.match(/^([A-G])(\d)$/);
   const midi = (Number(octave) + 1) * 12 + NOTE_STEPS[tone];
   return 440 * Math.pow(2, (midi - 69) / 12);
 }
 
+// Web Audio APIを初期化して再生可能な状態にする
 function initAudio(){
   if(!audioCtx){
     const AudioContextClass = window.AudioContext || window.webkitAudioContext;
@@ -55,11 +61,13 @@ function initAudio(){
   }
 }
 
+// 端末の種類に合わせてBGM音量を返す
 function getBgmVolume(){
   const isMobileLike = window.matchMedia && window.matchMedia("(pointer: coarse)").matches;
   return isMobileLike ? BGM_MOBILE_VOLUME : BGM_VOLUME;
 }
 
+// 指定した音色・音量・長さで単音を再生する
 function playTone({freq, startAt, length, type = "triangle", volume = .18, attack = .02, release = .05, filterFreq = null, filterEnd = null, bend = 1, destination = audioCtx.destination}){
   const osc = audioCtx.createOscillator();
   const gain = audioCtx.createGain();
@@ -91,21 +99,27 @@ function playTone({freq, startAt, length, type = "triangle", volume = .18, attac
   osc.stop(endAt + 0.03);
 }
 
+// BGM用の音量ノードに単音を流して再生する
 function playBgmTone(options){
   if(audioCtx && bgmGain) playTone({...options, destination: bgmGain});
 }
 
+// BGMの各パートの音符を指定時刻にまとめて予約する
 function scheduleBgmPart(startAt, notes, options){
-  notes.forEach(([time, pitch, length]) => {
-    playBgmTone({
-      ...options,
-      freq: typeof pitch === "number" ? pitch : noteFreq(pitch),
-      startAt: startAt + time * BGM_BEAT,
-      length: length * BGM_BEAT
-    });
-  });
+  notes.forEach(
+    // 各音符をBGMの拍に合わせて再生予約する
+    ([time, pitch, length]) => {
+      playBgmTone({
+        ...options,
+        freq: typeof pitch === "number" ? pitch : noteFreq(pitch),
+        startAt: startAt + time * BGM_BEAT,
+        length: length * BGM_BEAT
+      });
+    }
+  );
 }
 
+// レトロゲーム風BGMの全パートを1セクション分予約する
 function scheduleRetroBgm(startAt){
   scheduleBgmPart(startAt, BGM_MELODY, {type:"square", volume:.14, filterFreq:2400, attack:.01, release:.08});
   scheduleBgmPart(startAt, BGM_BASS, {type:"triangle", volume:.08, filterFreq:1000, attack:.02, release:.12});
@@ -113,6 +127,7 @@ function scheduleRetroBgm(startAt){
   scheduleBgmPart(startAt, BGM_ARPEGGIO, {type:"square", volume:.035, filterFreq:3200, attack:.005, release:.02});
 }
 
+// BGMを開始し、次のセクションを継続的に予約する
 function startBgm(){
   if(!audioCtx || bgmPlaying) return;
   bgmPlaying = true;
@@ -128,6 +143,7 @@ function startBgm(){
 
   let nextSectionAt = now + BGM_LOOKAHEAD;
 
+  // 次のBGMセクションを予約して、その次の予約タイマーを設定する
   function scheduleNextSection(){
     if(!bgmPlaying) return;
 
@@ -141,6 +157,7 @@ function startBgm(){
   scheduleNextSection();
 }
 
+// BGMをフェードアウトして停止する
 function stopBgm(){
   if(!audioCtx || !bgmPlaying) return;
   bgmPlaying = false;
@@ -158,12 +175,17 @@ function stopBgm(){
     fadingGain.gain.cancelScheduledValues(now);
     fadingGain.gain.setValueAtTime(fadingGain.gain.value || getBgmVolume(), now);
     fadingGain.gain.linearRampToValueAtTime(0.0001, now + 0.3);
-    window.setTimeout(() => {
-      fadingGain.disconnect();
-    }, 350);
+    window.setTimeout(
+      // フェードアウト後にBGM用ノードを切り離す
+      () => {
+        fadingGain.disconnect();
+      },
+      350
+    );
   }
 }
 
+// ぷにが置かれた時などに鳴る短い鳴き声音を再生する
 function playCuteDogSound(strength=1, delay=0, pitch=1, force=false){
   if(!audioCtx) return;
 
@@ -216,6 +238,7 @@ function playCuteDogSound(strength=1, delay=0, pitch=1, force=false){
   chirp.stop(startAt + 0.22);
 }
 
+// ぷにが落下した時の軽い効果音を再生する
 function playFallSound(){
   if(!audioCtx) return;
 
@@ -237,6 +260,7 @@ function playFallSound(){
   });
 }
 
+// 連鎖数と消えた数に合わせてにぎやかな鳴き声を連続再生する
 function playDogPartySound(chainCount, clearedCount){
   const barks = Math.min(12, 5 + chainCount * 2 + Math.floor(clearedCount / 3));
   const pattern = [[0,1,1.08],[.08,.96,1.24],[.16,.98,1.38],[.24,.94,1.55],[.32,.96,1.18],[.4,.92,1.48],[.48,.94,1.64],[.56,1,1.3],[.64,.94,1.72],[.72,.9,1.42],[.8,.96,1.58],[.88,1,1.2]];
@@ -247,27 +271,38 @@ function playDogPartySound(chainCount, clearedCount){
   }
 }
 
+// 通常ゲームオーバー時の下降するメロディを再生する
 function playGameOverMusic(){
   if(!audioCtx) return;
 
   const now = audioCtx.currentTime;
-  [[0,660,.18],[.18,560,.18],[.36,470,.24],[.62,350,.36],[1.02,260,.55]].forEach(([time, freq, length]) => {
-    playTone({freq, startAt:now + time, length, type:"triangle", volume:.2, attack:.03, filterFreq:1400, filterEnd:650, bend:.88});
-  });
+  [[0,660,.18],[.18,560,.18],[.36,470,.24],[.62,350,.36],[1.02,260,.55]].forEach(
+    // ゲームオーバー用の短いメロディを順番に再生する
+    ([time, freq, length]) => {
+      playTone({freq, startAt:now + time, length, type:"triangle", volume:.2, attack:.03, filterFreq:1400, filterEnd:650, bend:.88});
+    }
+  );
   playTone({freq:130, startAt:now + .58, length:1.07, type:"sine", volume:.16, attack:.1, bend:82 / 130});
 }
 
+// 高得点ゲームオーバー時の勝利風メロディと鳴き声を再生する
 function playVictoryGameOverMusic(){
   if(!audioCtx) return;
 
   const now = audioCtx.currentTime;
-  [[0,"C5",.16],[.15,"E5",.16],[.3,"G5",.18],[.47,"C6",.24],[.72,"B5",.16],[.87,"D6",.18],[1.04,"E6",.42]].forEach(([time, pitch, length], index) => {
-    playTone({freq:noteFreq(pitch), startAt:now + time, length, type:index % 2 ? "square" : "triangle", volume:.18, attack:.015, filterFreq:3200, filterEnd:1900, bend:1.04});
-  });
+  [[0,"C5",.16],[.15,"E5",.16],[.3,"G5",.18],[.47,"C6",.24],[.72,"B5",.16],[.87,"D6",.18],[1.04,"E6",.42]].forEach(
+    // 勝利風の上昇メロディを順番に再生する
+    ([time, pitch, length], index) => {
+      playTone({freq:noteFreq(pitch), startAt:now + time, length, type:index % 2 ? "square" : "triangle", volume:.18, attack:.015, filterFreq:3200, filterEnd:1900, bend:1.04});
+    }
+  );
 
-  ["C5","E5","G5","C6"].forEach((pitch, index)=>{
-    playTone({freq:noteFreq(pitch), startAt:now + 1.42 + index * .025, length:.8, type:"triangle", volume:.11, attack:.04});
-  });
+  ["C5","E5","G5","C6"].forEach(
+    // 最後に和音風の余韻を重ねる
+    (pitch, index) => {
+      playTone({freq:noteFreq(pitch), startAt:now + 1.42 + index * .025, length:.8, type:"triangle", volume:.11, attack:.04});
+    }
+  );
 
   playCuteDogSound(0.85, 0.18, 1.6, true);
   playCuteDogSound(0.8, 0.38, 1.8, true);

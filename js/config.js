@@ -21,6 +21,7 @@ const DROP_INTERVAL = 500;
 c.width = COL * SIZE;
 c.height = ROW * SIZE;
 
+// ゲームオーバーのポップアップに最終スコアを表示する
 function showGameOverPopup(){
   if(finalScore){
     finalScore.innerText = "SCORE: " + score;
@@ -31,12 +32,14 @@ function showGameOverPopup(){
   }
 }
 
+// ゲームオーバーのポップアップを非表示にする
 function hideGameOverPopup(){
   if(gameOverPopup){
     gameOverPopup.classList.add("hidden");
   }
 }
 
+// スコアと連鎖数の表示を現在の状態に更新する
 function updateUI(){
   scoreLabel.innerText = "SCORE: " + score;
 
