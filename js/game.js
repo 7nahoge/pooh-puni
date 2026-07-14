@@ -70,8 +70,8 @@ function gameOver() {
   running = false;
   current = null;
   stopBgm();
-
-  if (score > 5000) {
+  // スコアが5000点以上なら勝利音楽を再生、それ以外はゲームオーバー音楽を再生
+  if (score >= HIGH_SCORE_TARGET) {
     playVictoryGameOverMusic();
   } else {
     playGameOverMusic();

@@ -10,6 +10,7 @@ const scoreLabel = document.getElementById("score");
 const chainLabel = document.getElementById("chain");
 const gameOverPopup = document.getElementById("gameOverPopup");
 const finalScore = document.getElementById("finalScore");
+const gameOverMessage = document.getElementById("gameOverMessage");
 const restartBtn = document.getElementById("restartBtn");
 const endBtn = document.getElementById("endBtn");
 
@@ -17,7 +18,7 @@ const COL = 6;
 const ROW = 10;
 const SIZE = 60;
 const DROP_INTERVAL = 500;
-
+const HIGH_SCORE_TARGET = 5000;
 c.width = COL * SIZE;
 c.height = ROW * SIZE;
 
@@ -27,7 +28,14 @@ function showGameOverPopup(){
     finalScore.innerText = "SCORE: " + score;
   }
 
+  if(gameOverMessage){
+    gameOverMessage.innerText = score >= HIGH_SCORE_TARGET
+      ? "Great job! You scored over 5000!"
+      : "So close. Aim for over 5000 next time!";
+  }
+
   if(gameOverPopup){
+    gameOverPopup.classList.toggle("isClear", score >= HIGH_SCORE_TARGET);
     gameOverPopup.classList.remove("hidden");
   }
 }
@@ -36,6 +44,7 @@ function showGameOverPopup(){
 function hideGameOverPopup(){
   if(gameOverPopup){
     gameOverPopup.classList.add("hidden");
+    gameOverPopup.classList.remove("isClear");
   }
 }
 

@@ -15,9 +15,17 @@
     </div>
     <canvas id="c" width="360" height="600"></canvas>
     <div id="gameOverPopup" class="popup hidden">
+      <div class="fireworks" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
       <div class="popupBox">
         <div class="popupTitle">GAME OVER</div>
         <div id="finalScore" class="popupScore">SCORE: 0</div>
+        <div id="gameOverMessage" class="popupMessage"></div>
         <div class="popupActions">
           <button id="restartBtn">RESTART</button>
           <button id="endBtn">END</button>

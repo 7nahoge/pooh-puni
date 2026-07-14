@@ -102,6 +102,7 @@ footer{
 
 /* ポップアップの白いボックス部分 */
 .popupBox {
+  position: relative;
   /* 画面幅に収まる最大幅 */
   width: min(280px, calc(100vw - 48px));
   /* ボックス内側の余白 */
@@ -114,6 +115,7 @@ footer{
   border-radius: 8px;
   /* 影を付けて浮かせる */
   box-shadow: 0 8px 24px rgba(80, 40, 70, 0.2);
+  z-index: 1;
 }
 
 /* ポップアップタイトル */
@@ -143,6 +145,144 @@ footer{
 }
 
 /* ポップアップ内のボタン配置 */
+.popupMessage {
+  margin: 0 0 16px;
+  color: #e84a9b;
+  font-size: 17px;
+  font-weight: bold;
+  line-height: 1.45;
+}
+
+.popup.isClear .popupBox {
+  border-color: #ffd166;
+  box-shadow: 0 0 0 5px rgba(255, 209, 102, 0.25), 0 12px 30px rgba(232, 74, 155, 0.28);
+  animation: clearPop 0.7s ease both;
+}
+
+.fireworks {
+  position: fixed;
+  inset: 0;
+  display: none;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.popup.isClear .fireworks {
+  display: block;
+}
+
+.fireworks span {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #ffd166;
+  box-shadow:
+    0 -42px #ff5fa2,
+    30px -30px #40c9a2,
+    42px 0 #ffd166,
+    30px 30px #5c7cfa,
+    0 42px #ff8fab,
+    -30px 30px #ffca3a,
+    -42px 0 #38bdf8,
+    -30px -30px #f15bb5;
+  opacity: 0;
+  transform: scale(0.2);
+  animation: firework 1.4s ease-out infinite;
+}
+
+.fireworks span:nth-child(1) {
+  left: 22%;
+  top: 25%;
+}
+
+.fireworks span:nth-child(2) {
+  left: 76%;
+  top: 24%;
+  animation-delay: 0.25s;
+}
+
+.fireworks span:nth-child(3) {
+  left: 50%;
+  top: 15%;
+  animation-delay: 0.45s;
+}
+
+.fireworks span:nth-child(4) {
+  left: 20%;
+  top: 66%;
+  animation-delay: 0.65s;
+}
+
+.fireworks span:nth-child(5) {
+  left: 80%;
+  top: 66%;
+  animation-delay: 0.85s;
+}
+
+@keyframes firework {
+  0% {
+    opacity: 0;
+    transform: scale(0.1) rotate(0deg);
+  }
+
+  18% {
+    opacity: 1;
+  }
+
+  70% {
+    opacity: 0.9;
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.35) rotate(45deg);
+  }
+}
+
+@keyframes clearPop {
+  0% {
+    transform: scale(0.88);
+  }
+
+  70% {
+    transform: scale(1.04);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes missDrop {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) scale(0.98);
+  }
+
+  65% {
+    opacity: 1;
+    transform: translateY(5px) scale(1);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes sighDots {
+  0%, 100% {
+    opacity: 0.45;
+    transform: translateY(0);
+  }
+
+  50% {
+    opacity: 1;
+    transform: translateY(3px);
+  }
+}
+
 .popupActions {
   /* ボタンを横並びに */
   display: flex;
