@@ -4,7 +4,6 @@
 
 let audioCtx = null;
 let lastDogSoundAt = 0;
-let lastFallSoundAt = 0;
 let bgmGain = null;
 let bgmTimerId = null;
 let bgmPlaying = false;
@@ -236,28 +235,6 @@ function playCuteDogSound(strength=1, delay=0, pitch=1, force=false){
   voice.stop(startAt + 0.22);
   chirp.start(startAt + 0.025);
   chirp.stop(startAt + 0.22);
-}
-
-// ぷにが落下した時の軽い効果音を再生する
-function playFallSound(){
-  if(!audioCtx) return;
-
-  const now = audioCtx.currentTime;
-
-  if(now - lastFallSoundAt < 0.08) return;
-  lastFallSoundAt = now;
-
-  playTone({
-    freq: 620 + Math.random() * 35,
-    startAt: now,
-    length: .14,
-    type: "triangle",
-    volume: .09,
-    attack: .012,
-    filterFreq: 1800,
-    filterEnd: 950,
-    bend: .9
-  });
 }
 
 // 連鎖数と消えた数に合わせてにぎやかな鳴き声を連続再生する

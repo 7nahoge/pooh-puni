@@ -56,8 +56,7 @@ function spawn() {
   current = {
     x: Math.floor(COL / 2),
     y: 0,
-    cat: r,
-    bounce: 0
+    cat: r
   };
 
   if (!can(current.x, current.y)) {

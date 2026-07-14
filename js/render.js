@@ -15,7 +15,7 @@ function draw(){
   }
 
   if(current){
-    drawCat(imgs[current.cat], current.x * SIZE, current.y * SIZE, current.bounce);
+    drawCat(imgs[current.cat], current.x * SIZE, current.y * SIZE);
   }
 
   drawEffects();
