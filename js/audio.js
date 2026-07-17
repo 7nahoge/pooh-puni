@@ -286,3 +286,29 @@ function playVictoryGameOverMusic(){
   playCuteDogSound(0.9, 0.62, 1.7, true);
   playCuteDogSound(0.85, 1.0, 1.9, true);
 }
+
+function playLegendGameOverMusic(){
+  playVictoryGameOverMusic();
+  if(!audioCtx) return;
+
+  const now = audioCtx.currentTime;
+  ["C6","E6","G6","C7","E7"].forEach(
+    (pitch, index) => {
+      playTone({
+        freq: noteFreq(pitch),
+        startAt: now + 1.25 + index * 0.11,
+        length: 0.28,
+        type: index % 2 ? "square" : "triangle",
+        volume: 0.15,
+        attack: 0.01,
+        filterFreq: 3600,
+        filterEnd: 2400,
+        bend: 1.08
+      });
+    }
+  );
+
+  playCuteDogSound(1, 1.25, 2.1, true);
+  playCuteDogSound(1, 1.45, 2.35, true);
+  playCuteDogSound(1, 1.7, 2.15, true);
+}

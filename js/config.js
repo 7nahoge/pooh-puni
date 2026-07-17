@@ -19,6 +19,8 @@ const ROW = 10;
 const SIZE = 60;
 const DROP_INTERVAL = 650;
 const HIGH_SCORE_TARGET = 5000;
+const LEGEND_SCORE_TARGET = 10000;
+
 c.width = COL * SIZE;
 c.height = ROW * SIZE;
 
@@ -29,13 +31,18 @@ function showGameOverPopup(){
   }
 
   if(gameOverMessage){
-    gameOverMessage.innerText = score >= HIGH_SCORE_TARGET
-      ? "Great job! You scored over 5000!"
-      : "So close. Aim for over 5000 next time!";
+    if(score >= LEGEND_SCORE_TARGET){
+      gameOverMessage.innerText = "Amazing! You scored over 10000!";
+    }else if(score >= HIGH_SCORE_TARGET){
+      gameOverMessage.innerText = "Great job! You scored over 5000!";
+    }else{
+      gameOverMessage.innerText = "So close. Aim for over 5000 next time!";
+    }
   }
 
   if(gameOverPopup){
     gameOverPopup.classList.toggle("isClear", score >= HIGH_SCORE_TARGET);
+    gameOverPopup.classList.toggle("isLegend", score >= LEGEND_SCORE_TARGET);
     gameOverPopup.classList.remove("hidden");
   }
 }
@@ -45,6 +52,7 @@ function hideGameOverPopup(){
   if(gameOverPopup){
     gameOverPopup.classList.add("hidden");
     gameOverPopup.classList.remove("isClear");
+    gameOverPopup.classList.remove("isLegend");
   }
 }
 

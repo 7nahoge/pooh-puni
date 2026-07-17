@@ -159,6 +159,32 @@ footer{
   animation: clearPop 0.7s ease both;
 }
 
+.popup.isLegend {
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 209, 102, 0.38), transparent 28%),
+    radial-gradient(circle at 80% 18%, rgba(255, 95, 162, 0.34), transparent 30%),
+    rgba(255, 240, 248, 0.82);
+}
+
+.popup.isLegend .popupBox {
+  border-color: #ffca3a;
+  background: #fffaf0;
+  box-shadow:
+    0 0 0 6px rgba(255, 202, 58, 0.32),
+    0 0 30px rgba(255, 95, 162, 0.45),
+    0 16px 36px rgba(80, 40, 70, 0.26);
+  animation: legendPop 0.9s ease both, legendGlow 1.2s ease-in-out infinite;
+}
+
+.popup.isLegend .popupTitle {
+  color: #e84a9b;
+}
+
+.popup.isLegend .popupMessage {
+  color: #c44dff;
+  font-size: 19px;
+}
+
 .fireworks {
   position: fixed;
   inset: 0;
@@ -220,6 +246,53 @@ footer{
   animation-delay: 0.85s;
 }
 
+.fireworks span:nth-child(n + 6) {
+  display: none;
+}
+
+.popup.isLegend .fireworks span {
+  width: 15px;
+  height: 15px;
+  animation-duration: 1s;
+  box-shadow:
+    0 -54px #ff5fa2,
+    38px -38px #40c9a2,
+    54px 0 #ffd166,
+    38px 38px #5c7cfa,
+    0 54px #ff8fab,
+    -38px 38px #ffca3a,
+    -54px 0 #38bdf8,
+    -38px -38px #c44dff;
+}
+
+.popup.isLegend .fireworks span:nth-child(n + 6) {
+  display: block;
+}
+
+.fireworks span:nth-child(6) {
+  left: 36%;
+  top: 42%;
+  animation-delay: 0.15s;
+}
+
+.fireworks span:nth-child(7) {
+  left: 64%;
+  top: 44%;
+  animation-delay: 0.35s;
+}
+
+.fireworks span:nth-child(8) {
+  left: 38%;
+  top: 76%;
+  animation-delay: 0.55s;
+}
+
+.fireworks span:nth-child(9) {
+  left: 62%;
+  top: 76%;
+  animation-delay: 0.75s;
+}
+
 @keyframes firework {
   0% {
     opacity: 0;
@@ -251,6 +324,30 @@ footer{
 
   100% {
     transform: scale(1);
+  }
+}
+
+@keyframes legendPop {
+  0% {
+    transform: scale(0.8) rotate(-2deg);
+  }
+
+  55% {
+    transform: scale(1.08) rotate(1deg);
+  }
+
+  100% {
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+@keyframes legendGlow {
+  0%, 100% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(1.12);
   }
 }
 
