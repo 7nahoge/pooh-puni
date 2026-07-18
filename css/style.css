@@ -2,149 +2,102 @@
 
 /* ページ全体の基本表示設定 */
 body {
-  /* ブラウザ標準の余白をなくす */
   margin: 0;
-  /* 背景画像 */
   background-image: url(../image/background.gif);
-  /* 背景画像を縦横に繰り返す */
   background-repeat: repeat-x repeat-y;
-  /* スクロールしても背景を固定 */
   background-attachment: fixed;
-  /* 基本の文字色 */
   color: #108471;
-  /* ページ全体のフォント */
   font-family: sans-serif;
-  /* テキスト中央寄せ */
   text-align: center;
-  /* 画面外にはみ出した部分を隠す */
   overflow: hidden;
 }
 
 /* タイトル文字 */
 h1 {
-  /* 文字サイズ */
   font-size: 18px;
-  /* タイトル周りの余白設定 */
   margin: 4px;
-  /* 文字色 */
   color: #0b806c;
-  /* タイトル文字縁取り */
   -webkit-text-stroke: 3px white;
-  /* 縁取りを文字の塗りより先に描画する */
   paint-order: stroke fill;
 }
 
 /* ゲーム画面のcanvas表示 */
 canvas {
-  /* 盤面の背景色 */
   background: #feecf2;
-  /* 盤面の枠線 */
   border: 2px solid rgb(255, 153, 214);
-  /* タッチ操作時のブラウザ標準ジェスチャーを無効にする */
   touch-action: none;
 }
 
 /* フッター */
-footer{
-    /* 上側の余白 */
-    margin-top:2px;
-    /* 文字サイズ */
-    font-size:12px;
-    /* 文字色 */
-    color:#666;
+footer {
+  margin-top: 2px;
+  font-size: 12px;
+  color: #666;
 }
 
-/* スコアなどのUI全体の余白 */
+/* スコアなどのUI全体 */
 #ui {
-  /* UI周りの余白を設定する */
   margin: 4px;
 }
 
 /* スコア表示 */
 #score {
-  /* 文字サイズ */
   font-size: 14px;
-  /* 文字色 */
   color: #000;
-  /* 文字縁取り */
   -webkit-text-stroke: 2px white;
-  /* 縁取りを文字の塗りより先に描画する */
   paint-order: stroke fill;
 }
 
-/* 連鎖表示は現在非表示 */
+/* 連鎖表示 */
 #chain {
-  /* 連鎖テキストを画面に表示しない */
-  display:none;
+  display: none;
 }
 
 /* ポップアップ全体の背景と配置 */
 .popup {
-  /* 画面に対して固定表示 */
   position: fixed;
-  /* 画面全体を覆う */
   inset: 0;
-  /* 中身をグリッドで配置 */
   display: grid;
-  /* ポップアップボックスを中央に */
   place-items: center;
-  /* 半透明の背景色 */
   background: rgba(255, 240, 248, 0.72);
-  /* ゲーム画面より前面に表示 */
   z-index: 10;
 }
 
 /* 非表示状態のポップアップ */
 .popup.hidden {
-  /* hiddenクラスが付いたら表示しない */
   display: none;
 }
 
 /* ポップアップの白いボックス部分 */
 .popupBox {
   position: relative;
-  /* 画面幅に収まる最大幅 */
   width: min(280px, calc(100vw - 48px));
-  /* ボックス内側の余白 */
   padding: 22px 18px;
-  /* 背景色 */
   background: #fff;
-  /* 枠線 */
   border: 3px solid rgb(255, 153, 214);
-  /* 角を少し丸く */
   border-radius: 8px;
-  /* 影を付けて浮かせる */
   box-shadow: 0 8px 24px rgba(80, 40, 70, 0.2);
   z-index: 1;
 }
 
 /* ポップアップタイトル */
 .popupTitle {
-  /* 文字サイズ */
   font-size: 24px;
-  /* 太字 */
   font-weight: bold;
-  /* 文字色 */
   color: #0b806c;
-  /* 文字縁取り */
   -webkit-text-stroke: 3px white;
-  /* 縁取りを文字の塗りより先に描画 */
   paint-order: stroke fill;
 }
 
 /* ポップアップ内のスコア表示 */
 .popupScore {
-  /* 上下左右の余白 */
   margin: 10px 0 16px;
-  /* 文字サイズ */
   font-size: 18px;
-  /* 太字 */
   font-weight: bold;
-  /* 文字色 */
   color: #000;
 }
 
-/* ポップアップ内のボタン配置 */
+/* ポップアップ内のメッセージ表示 */
 .popupMessage {
   margin: 0 0 16px;
   color: #e84a9b;
@@ -153,12 +106,14 @@ footer{
   line-height: 1.45;
 }
 
+/* クリア時のポップアップボックス演出 */
 .popup.isClear .popupBox {
   border-color: #ffd166;
   box-shadow: 0 0 0 5px rgba(255, 209, 102, 0.25), 0 12px 30px rgba(232, 74, 155, 0.28);
   animation: clearPop 0.7s ease both;
 }
 
+/* 最高評価時のポップアップ背景演出 */
 .popup.isLegend {
   background:
     radial-gradient(circle at 20% 20%, rgba(255, 209, 102, 0.38), transparent 28%),
@@ -166,6 +121,7 @@ footer{
     rgba(255, 240, 248, 0.82);
 }
 
+/* 最高評価時のポップアップボックス演出 */
 .popup.isLegend .popupBox {
   border-color: #ffca3a;
   background: #fffaf0;
@@ -176,15 +132,18 @@ footer{
   animation: legendPop 0.9s ease both, legendGlow 1.2s ease-in-out infinite;
 }
 
+/* 最高評価時のタイトル色 */
 .popup.isLegend .popupTitle {
   color: #e84a9b;
 }
 
+/* 最高評価時のメッセージ表示 */
 .popup.isLegend .popupMessage {
   color: #c44dff;
   font-size: 19px;
 }
 
+/* 花火エフェクト全体 */
 .fireworks {
   position: fixed;
   inset: 0;
@@ -193,10 +152,12 @@ footer{
   overflow: hidden;
 }
 
+/* クリア時に花火エフェクトを表示する */
 .popup.isClear .fireworks {
   display: block;
 }
 
+/* 花火の粒 */
 .fireworks span {
   position: absolute;
   width: 12px;
@@ -217,39 +178,46 @@ footer{
   animation: firework 1.4s ease-out infinite;
 }
 
+/* 1つ目の花火の位置 */
 .fireworks span:nth-child(1) {
   left: 22%;
   top: 25%;
 }
 
+/* 2つ目の花火の位置 */
 .fireworks span:nth-child(2) {
   left: 76%;
   top: 24%;
   animation-delay: 0.25s;
 }
 
+/* 3つ目の花火の位置 */
 .fireworks span:nth-child(3) {
   left: 50%;
   top: 15%;
   animation-delay: 0.45s;
 }
 
+/* 4つ目の花火の位置 */
 .fireworks span:nth-child(4) {
   left: 20%;
   top: 66%;
   animation-delay: 0.65s;
 }
 
+/* 5つ目の花火の位置 */
 .fireworks span:nth-child(5) {
   left: 80%;
   top: 66%;
   animation-delay: 0.85s;
 }
 
+/* 通常クリア時は6つ目以降の花火を隠す */
 .fireworks span:nth-child(n + 6) {
   display: none;
 }
 
+/* 最高評価時の花火の粒 */
 .popup.isLegend .fireworks span {
   width: 15px;
   height: 15px;
@@ -265,34 +233,40 @@ footer{
     -38px -38px #c44dff;
 }
 
+/* 最高評価時は6つ目以降の花火も表示する */
 .popup.isLegend .fireworks span:nth-child(n + 6) {
   display: block;
 }
 
+/* 6つ目の花火の位置 */
 .fireworks span:nth-child(6) {
   left: 36%;
   top: 42%;
   animation-delay: 0.15s;
 }
 
+/* 7つ目の花火の位置 */
 .fireworks span:nth-child(7) {
   left: 64%;
   top: 44%;
   animation-delay: 0.35s;
 }
 
+/* 8つ目の花火の位置 */
 .fireworks span:nth-child(8) {
   left: 38%;
   top: 76%;
   animation-delay: 0.55s;
 }
 
+/* 9つ目の花火の位置 */
 .fireworks span:nth-child(9) {
   left: 62%;
   top: 76%;
   animation-delay: 0.75s;
 }
 
+/* 花火が広がって消える動き */
 @keyframes firework {
   0% {
     opacity: 0;
@@ -313,6 +287,7 @@ footer{
   }
 }
 
+/* クリア時のポップアップが弾む動き */
 @keyframes clearPop {
   0% {
     transform: scale(0.88);
@@ -327,6 +302,7 @@ footer{
   }
 }
 
+/* 最高評価時のポップアップが弾む動き */
 @keyframes legendPop {
   0% {
     transform: scale(0.8) rotate(-2deg);
@@ -341,6 +317,7 @@ footer{
   }
 }
 
+/* 最高評価時のポップアップが明るく光る動き */
 @keyframes legendGlow {
   0%, 100% {
     filter: brightness(1);
@@ -351,6 +328,7 @@ footer{
   }
 }
 
+/* ミス表示が上から落ちてくる動き */
 @keyframes missDrop {
   0% {
     opacity: 0;
@@ -368,6 +346,7 @@ footer{
   }
 }
 
+/* ため息の点が上下する動き */
 @keyframes sighDots {
   0%, 100% {
     opacity: 0.45;
@@ -380,36 +359,26 @@ footer{
   }
 }
 
+/* ポップアップ内のボタン配置 */
 .popupActions {
-  /* ボタンを横並びに */
   display: flex;
-  /* ボタンを中央寄せ */
   justify-content: center;
-  /* ボタン同士の間隔 */
   gap: 10px;
 }
 
 /* リスタートボタンと終了ボタンの共通見た目 */
 #restartBtn,
 #endBtn {
-  /* ボタンの最小幅 */
   min-width: 108px;
-  /* ボタン内側の余白 */
   padding: 8px 16px;
-  /* ボタンの枠線 */
   border: 2px solid rgb(255, 153, 214);
-  /* ボタンの角を丸く */
   border-radius: 8px;
-  /* ボタンの背景色 */
   background: #feecf2;
-  /* ボタンの文字色 */
   color: #0b806c;
-  /* ボタン文字を太字に */
   font-weight: bold;
 }
 
-/* 終了ボタンだけ背景色を白にする */
+/* 終了ボタン */
 #endBtn {
-  /* 背景色 */
   background: #fff;
 }
