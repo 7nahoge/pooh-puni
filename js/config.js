@@ -20,8 +20,8 @@ const SIZE = 60;
 const DROP_INTERVAL = 700;
 const HIGH_SCORE_TARGET = 5000;
 const LEGEND_SCORE_TARGET = 10000;
-const SCORE_PER_CLEARED = 20;
-const CHAIN_BONUS = 30;
+const SCORE_PER_CLEARED = 23;
+const CHAIN_BONUS = 34;
 
 c.width = COL * SIZE;
 c.height = ROW * SIZE;
