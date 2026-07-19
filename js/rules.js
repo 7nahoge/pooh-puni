@@ -44,7 +44,7 @@ function check(){
 
   if(cleared > 0){
     chain++;
-    score += cleared * 12 + chain * 6;
+    score += cleared * SCORE_PER_CLEARED + chain * CHAIN_BONUS;
     updateUI();
     playDogPartySound(chain, cleared);
   }else{

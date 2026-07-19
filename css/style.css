@@ -158,6 +158,49 @@ footer {
 }
 
 /* 花火の粒 */
+.legendStars {
+  position: fixed;
+  inset: 0;
+  display: none;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.popup.isLegend .legendStars {
+  display: block;
+}
+
+.legendStars span {
+  position: absolute;
+  bottom: -24px;
+  width: 8px;
+  height: 8px;
+  background: #fff7ad;
+  clip-path: polygon(50% 0, 62% 35%, 100% 50%, 62% 65%, 50% 100%, 38% 65%, 0 50%, 38% 35%);
+  filter: drop-shadow(0 0 6px rgba(255, 245, 140, 0.9));
+  opacity: 0;
+  animation: starLaunch 2.6s ease-out infinite;
+}
+
+.legendStars span:nth-child(1) { left: 8%; animation-delay: 0s; }
+.legendStars span:nth-child(2) { left: 16%; animation-delay: 0.22s; width: 6px; height: 6px; }
+.legendStars span:nth-child(3) { left: 24%; animation-delay: 0.48s; }
+.legendStars span:nth-child(4) { left: 32%; animation-delay: 0.12s; width: 10px; height: 10px; }
+.legendStars span:nth-child(5) { left: 40%; animation-delay: 0.68s; }
+.legendStars span:nth-child(6) { left: 48%; animation-delay: 0.3s; width: 6px; height: 6px; }
+.legendStars span:nth-child(7) { left: 56%; animation-delay: 0.82s; }
+.legendStars span:nth-child(8) { left: 64%; animation-delay: 0.18s; width: 10px; height: 10px; }
+.legendStars span:nth-child(9) { left: 72%; animation-delay: 0.54s; }
+.legendStars span:nth-child(10) { left: 82%; animation-delay: 0.06s; width: 6px; height: 6px; }
+.legendStars span:nth-child(11) { left: 90%; animation-delay: 0.74s; }
+.legendStars span:nth-child(12) { left: 12%; animation-delay: 1.02s; width: 10px; height: 10px; }
+.legendStars span:nth-child(13) { left: 28%; animation-delay: 1.18s; }
+.legendStars span:nth-child(14) { left: 44%; animation-delay: 1.34s; width: 6px; height: 6px; }
+.legendStars span:nth-child(15) { left: 60%; animation-delay: 1.08s; }
+.legendStars span:nth-child(16) { left: 76%; animation-delay: 1.46s; width: 10px; height: 10px; }
+.legendStars span:nth-child(17) { left: 88%; animation-delay: 1.24s; }
+.legendStars span:nth-child(18) { left: 36%; animation-delay: 1.6s; width: 6px; height: 6px; }
+
 .fireworks span {
   position: absolute;
   width: 12px;
@@ -329,6 +372,26 @@ footer {
 }
 
 /* ミス表示が上から落ちてくる動き */
+@keyframes starLaunch {
+  0% {
+    opacity: 0;
+    transform: translateY(0) translateX(0) scale(0.3) rotate(0deg);
+  }
+
+  14% {
+    opacity: 1;
+  }
+
+  68% {
+    opacity: 0.95;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-92vh) translateX(34px) scale(1.15) rotate(260deg);
+  }
+}
+
 @keyframes missDrop {
   0% {
     opacity: 0;

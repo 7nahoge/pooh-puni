@@ -17,9 +17,11 @@ const endBtn = document.getElementById("endBtn");
 const COL = 6;
 const ROW = 10;
 const SIZE = 60;
-const DROP_INTERVAL = 650;
+const DROP_INTERVAL = 700;
 const HIGH_SCORE_TARGET = 5000;
 const LEGEND_SCORE_TARGET = 10000;
+const SCORE_PER_CLEARED = 20;
+const CHAIN_BONUS = 30;
 
 c.width = COL * SIZE;
 c.height = ROW * SIZE;
