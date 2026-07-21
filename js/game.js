@@ -69,7 +69,7 @@ function gameOver() {
   running = false;
   current = null;
   stopBgm();
-  // スコアが5000点以上なら勝利音楽を再生、それ以外はゲームオーバー音楽を再生
+  // スコアが5000点以上、1万点以上ならそれぞれ勝利音楽を再生、5000点未満はゲームオーバー音楽を再生
   if (score >= LEGEND_SCORE_TARGET) {
     playLegendGameOverMusic();
   } else if (score >= HIGH_SCORE_TARGET) {

@@ -262,7 +262,7 @@ function playGameOverMusic(){
   playTone({freq:130, startAt:now + .58, length:1.07, type:"sine", volume:.16, attack:.1, bend:82 / 130});
 }
 
-// 高得点ゲームオーバー時の勝利風メロディと鳴き声を再生する
+// 5000点超えゲームオーバー時の勝利風メロディと鳴き声を再生する
 function playVictoryGameOverMusic(){
   if(!audioCtx) return;
 
@@ -287,28 +287,93 @@ function playVictoryGameOverMusic(){
   playCuteDogSound(0.85, 1.0, 1.9, true);
 }
 
+// 1万点超えゲームオーバー時の勝利風メロディと鳴き声を再生する
 function playLegendGameOverMusic(){
+  // 5000点以上の勝利音を土台として先に鳴らす
   playVictoryGameOverMusic();
   if(!audioCtx) return;
 
   const now = audioCtx.currentTime;
-  ["C6","E6","G6","C7","E7"].forEach(
-    (pitch, index) => {
+
+  // 1万点超え用の明るい上昇ファンファーレを重ねる
+  [
+    [1.18, "G5", .16],
+    [1.32, "C6", .18],
+    [1.48, "E6", .18],
+    [1.64, "G6", .2],
+    [1.84, "C7", .36],
+    [2.18, "G6", .16],
+    [2.32, "E7", .18],
+    [2.5, "G7", .42]
+  ].forEach(
+    ([time, pitch, length], index) => {
       playTone({
         freq: noteFreq(pitch),
-        startAt: now + 1.25 + index * 0.11,
-        length: 0.28,
+        startAt: now + time,
+        length,
         type: index % 2 ? "square" : "triangle",
-        volume: 0.15,
+        volume: 0.17,
         attack: 0.01,
-        filterFreq: 3600,
-        filterEnd: 2400,
-        bend: 1.08
+        release: 0.08,
+        filterFreq: 4200,
+        filterEnd: 2600,
+        bend: 1.06
       });
     }
   );
 
-  playCuteDogSound(1, 1.25, 2.1, true);
-  playCuteDogSound(1, 1.45, 2.35, true);
-  playCuteDogSound(1, 1.7, 2.15, true);
+  // ファンファーレに厚みを出すため、明るい和音をタイミングごとに鳴らす
+  [
+    [1.18, ["C4", "E4", "G4"]],
+    [1.64, ["F4", "A4", "C5"]],
+    [2.18, ["G4", "B4", "D5"]],
+    [2.5, ["C5", "E5", "G5", "C6"]]
+  ].forEach(
+    ([time, chord], chordIndex) => {
+      chord.forEach(
+        (pitch, noteIndex) => {
+          playTone({
+            freq: noteFreq(pitch),
+            startAt: now + time + noteIndex * 0.015,
+            length: chordIndex === 3 ? 1.05 : 0.42,
+            type: "triangle",
+            volume: chordIndex === 3 ? 0.1 : 0.075,
+            attack: 0.025,
+            release: 0.18,
+            filterFreq: 2400,
+            filterEnd: 1800,
+            bend: 1.01
+          });
+        }
+      );
+    }
+  );
+
+  // 高音の短い音を散らして、キラキラしたお祝い感を足す
+  ["C7", "E7", "G7", "C8", "G7", "E7", "C8"].forEach(
+    (pitch, index) => {
+      playTone({
+        freq: noteFreq(pitch),
+        startAt: now + 2.08 + index * 0.075,
+        length: 0.16,
+        type: "square",
+        volume: 0.07,
+        attack: 0.005,
+        release: 0.04,
+        filterFreq: 5200,
+        filterEnd: 3400,
+        bend: 1.12
+      });
+    }
+  );
+
+  // 最後に低音を伸ばして、フィナーレ感を出す
+  playTone({freq: noteFreq("C3"), startAt: now + 2.48, length: 1.12, type: "sine", volume: 0.12, attack: 0.04, release: 0.25});
+
+  // 高めの鳴き声を追加して、通常の勝利音よりにぎやかにする
+  playCuteDogSound(1, 1.18, 2.1, true);
+  playCuteDogSound(1, 1.38, 2.35, true);
+  playCuteDogSound(1, 1.62, 2.15, true);
+  playCuteDogSound(1, 2.05, 2.5, true);
+  playCuteDogSound(1, 2.34, 2.7, true);
 }
