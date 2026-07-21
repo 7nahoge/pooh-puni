@@ -13,8 +13,8 @@ const BGM_BEAT = 60 / BGM_BPM;
 const BGM_SECTION_BEATS = 32;
 const BGM_SECTION_LENGTH = BGM_BEAT * BGM_SECTION_BEATS;
 const BGM_LOOKAHEAD = 0.08;
-const BGM_VOLUME = 0.06;
-const BGM_MOBILE_VOLUME = 0.018;
+const BGM_VOLUME = 0.08;
+const BGM_MOBILE_VOLUME = 0.04;
 const NOTE_STEPS = {C: 0, D: 2, E: 4, F: 5, G: 7, A: 9, B: 11};
 
 const BGM_MELODY = [
