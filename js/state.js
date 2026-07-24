@@ -28,7 +28,8 @@ function loadImages(){
     "image/img6.png",
     "image/img7.png",
     "image/img8.png",
-    "image/img9.png"    
+    "image/img9.png",
+    "image/img10.png"
   ];
 
   imgs = paths.map(

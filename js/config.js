@@ -11,6 +11,7 @@ const chainLabel = document.getElementById("chain");
 const gameOverPopup = document.getElementById("gameOverPopup");
 const finalScore = document.getElementById("finalScore");
 const gameOverMessage = document.getElementById("gameOverMessage");
+const legendReward = document.getElementById("legendReward");
 const restartBtn = document.getElementById("restartBtn");
 const endBtn = document.getElementById("endBtn");
 
@@ -20,8 +21,8 @@ const SIZE = 60;
 const DROP_INTERVAL = 700;
 const HIGH_SCORE_TARGET = 5000;
 const LEGEND_SCORE_TARGET = 10000;
-const SCORE_PER_CLEARED = 23;
-const CHAIN_BONUS = 34;
+const SCORE_PER_CLEARED = 35;
+const CHAIN_BONUS = 50;
 
 c.width = COL * SIZE;
 c.height = ROW * SIZE;
@@ -47,6 +48,10 @@ function showGameOverPopup(){
     gameOverPopup.classList.toggle("isLegend", score >= LEGEND_SCORE_TARGET);
     gameOverPopup.classList.remove("hidden");
   }
+
+  if(legendReward){
+    legendReward.hidden = score < LEGEND_SCORE_TARGET;
+  }
 }
 
 // ゲームオーバーのポップアップを非表示にする
@@ -55,6 +60,10 @@ function hideGameOverPopup(){
     gameOverPopup.classList.add("hidden");
     gameOverPopup.classList.remove("isClear");
     gameOverPopup.classList.remove("isLegend");
+  }
+
+  if(legendReward){
+    legendReward.hidden = true;
   }
 }
 

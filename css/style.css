@@ -106,6 +106,46 @@ footer {
   line-height: 1.45;
 }
 
+.legendReward {
+  margin: 0 0 16px;
+  padding: 12px;
+  border: 2px dashed #ffca3a;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #fff8d6, #ffeaf5);
+}
+
+.legendReward[hidden] {
+  display: none;
+}
+
+.legendRewardTitle {
+  margin-bottom: 9px;
+  color: #c44dff;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.rewardDownload {
+  display: inline-block;
+  padding: 9px 14px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ff5fa2, #c44dff);
+  box-shadow: 0 4px 10px rgba(196, 77, 255, 0.25);
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.rewardDownload:hover {
+  filter: brightness(1.08);
+}
+
+.rewardDownload:focus-visible {
+  outline: 3px solid #40c9a2;
+  outline-offset: 3px;
+}
+
 /* 5000点以上のポップアップ演出 */
 .popup.isClear .popupBox {
   border-color: #ffd166;
