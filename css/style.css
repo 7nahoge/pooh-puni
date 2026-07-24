@@ -137,6 +137,10 @@ footer {
   text-decoration: none;
 }
 
+.rewardDownload[aria-disabled="true"] {
+  pointer-events: none;
+}
+
 .rewardDownload:hover {
   filter: brightness(1.08);
 }

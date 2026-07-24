@@ -12,6 +12,7 @@ const gameOverPopup = document.getElementById("gameOverPopup");
 const finalScore = document.getElementById("finalScore");
 const gameOverMessage = document.getElementById("gameOverMessage");
 const legendReward = document.getElementById("legendReward");
+const rewardDownload = document.getElementById("rewardDownload");
 const restartBtn = document.getElementById("restartBtn");
 const endBtn = document.getElementById("endBtn");
 
@@ -19,10 +20,12 @@ const COL = 6;
 const ROW = 10;
 const SIZE = 60;
 const DROP_INTERVAL = 700;
-const HIGH_SCORE_TARGET = 5000;
-const LEGEND_SCORE_TARGET = 10000;
+const HIGH_SCORE_TARGET = 500;
+const LEGEND_SCORE_TARGET = 1000;
 const SCORE_PER_CLEARED = 35;
 const CHAIN_BONUS = 50;
+const REWARD_WALLPAPER_PATH = "image/rewards/legend-wallpaper.png";
+const REWARD_WALLPAPER_NAME = "pupu-puni-legend-wallpaper.png";
 
 c.width = COL * SIZE;
 c.height = ROW * SIZE;
@@ -52,6 +55,16 @@ function showGameOverPopup(){
   if(legendReward){
     legendReward.hidden = score < LEGEND_SCORE_TARGET;
   }
+
+  if(rewardDownload && score >= LEGEND_SCORE_TARGET){
+    rewardDownload.href = REWARD_WALLPAPER_PATH;
+    rewardDownload.download = REWARD_WALLPAPER_NAME;
+    rewardDownload.setAttribute("aria-disabled", "false");
+  }else if(rewardDownload){
+    rewardDownload.removeAttribute("href");
+    rewardDownload.removeAttribute("download");
+    rewardDownload.setAttribute("aria-disabled", "true");
+  }
 }
 
 // ゲームオーバーのポップアップを非表示にする
@@ -65,6 +78,12 @@ function hideGameOverPopup(){
   if(legendReward){
     legendReward.hidden = true;
   }
+
+  if(rewardDownload){
+    rewardDownload.removeAttribute("href");
+    rewardDownload.removeAttribute("download");
+    rewardDownload.setAttribute("aria-disabled", "true");
+  }
 }
 
 // スコアと連鎖数の表示を現在の状態に更新する
@@ -74,4 +93,12 @@ function updateUI(){
   if(chainLabel){
     chainLabel.innerText = chain > 0 ? `${chain} CHAIN!!` : "";
   }
+}
+
+if(rewardDownload){
+  rewardDownload.addEventListener("click", e => {
+    if(score < LEGEND_SCORE_TARGET){
+      e.preventDefault();
+    }
+  });
 }
