@@ -22,8 +22,8 @@ const SIZE = 60;
 const DROP_INTERVAL = 700;
 const HIGH_SCORE_TARGET = 5000;
 const LEGEND_SCORE_TARGET = 10000;
-const SCORE_PER_CLEARED = 35;
-const CHAIN_BONUS = 50;
+const SCORE_PER_CLEARED = 40;
+const CHAIN_BONUS = 55;
 const REWARD_WALLPAPER_PATH = "image/rewards/legend-wallpaper.png";
 const REWARD_WALLPAPER_NAME = "pupu-puni-legend-wallpaper.png";
 
