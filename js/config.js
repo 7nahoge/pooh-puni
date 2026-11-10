@@ -12,6 +12,7 @@ const gameOverPopup = document.getElementById("gameOverPopup");
 const finalScore = document.getElementById("finalScore");
 const gameOverMessage = document.getElementById("gameOverMessage");
 const legendReward = document.getElementById("legendReward");
+const legendRewardTitle = document.getElementById("legendRewardTitle");
 const rewardDownload = document.getElementById("rewardDownload");
 const restartBtn = document.getElementById("restartBtn");
 const endBtn = document.getElementById("endBtn");
@@ -26,6 +27,9 @@ const SCORE_PER_CLEARED = 40;
 const CHAIN_BONUS = 55;
 const REWARD_WALLPAPER_PATH = "image/rewards/legend-wallpaper.png";
 const REWARD_WALLPAPER_NAME = "pupu-puni-legend-wallpaper.png";
+const SECOND_REWARD_SCORE_TARGET = 20000;
+const SECOND_REWARD_WALLPAPER_PATH = "image/rewards/legend-wallpaper2.jpg";
+const SECOND_REWARD_WALLPAPER_NAME = "legend-wallpaper2.jpg";
 
 c.width = COL * SIZE;
 c.height = ROW * SIZE;
@@ -56,9 +60,16 @@ function showGameOverPopup(){
     legendReward.hidden = score < LEGEND_SCORE_TARGET;
   }
 
+  if(legendRewardTitle){
+    legendRewardTitle.innerText = score > SECOND_REWARD_SCORE_TARGET
+      ? "20,000点超えプレゼント！"
+      : "10,000点達成プレゼント！";
+  }
+
   if(rewardDownload && score >= LEGEND_SCORE_TARGET){
-    rewardDownload.href = REWARD_WALLPAPER_PATH;
-    rewardDownload.download = REWARD_WALLPAPER_NAME;
+    const isSecondReward = score > SECOND_REWARD_SCORE_TARGET;
+    rewardDownload.href = isSecondReward ? SECOND_REWARD_WALLPAPER_PATH : REWARD_WALLPAPER_PATH;
+    rewardDownload.download = isSecondReward ? SECOND_REWARD_WALLPAPER_NAME : REWARD_WALLPAPER_NAME;
     rewardDownload.setAttribute("aria-disabled", "false");
   }else if(rewardDownload){
     rewardDownload.removeAttribute("href");
