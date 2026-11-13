@@ -34,6 +34,28 @@ const SECOND_REWARD_WALLPAPER_NAME = "legend-wallpaper2.jpg";
 c.width = COL * SIZE;
 c.height = ROW * SIZE;
 
+// 描画座標は維持し、Safariのツールバーとセーフエリアを除いた領域に盤面を収める。
+function resizeCanvasDisplay(){
+  const viewport = window.visualViewport;
+  const viewportBottom = viewport
+    ? viewport.offsetTop + viewport.height
+    : window.innerHeight;
+  const bodyStyle = getComputedStyle(document.body);
+  const availableWidth = document.documentElement.clientWidth
+    - parseFloat(bodyStyle.paddingLeft) - parseFloat(bodyStyle.paddingRight) - 4;
+  const availableHeight = viewportBottom - c.getBoundingClientRect().top
+    - parseFloat(bodyStyle.paddingBottom) - 4;
+  const scale = Math.max(0, Math.min(1, availableWidth / c.width, availableHeight / c.height));
+
+  c.style.width = `${c.width * scale}px`;
+  c.style.height = `${c.height * scale}px`;
+}
+
+window.addEventListener("resize", resizeCanvasDisplay);
+window.visualViewport?.addEventListener("resize", resizeCanvasDisplay);
+window.addEventListener("load", resizeCanvasDisplay);
+resizeCanvasDisplay();
+
 // ゲームオーバーのポップアップに最終スコアを表示する
 function showGameOverPopup(){
   if(finalScore){

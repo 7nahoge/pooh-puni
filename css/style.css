@@ -3,6 +3,8 @@
 /* ページ全体の基本設定 */
 body {
   margin: 0;
+  padding: env(safe-area-inset-top, 0px) env(safe-area-inset-right, 0px)
+    env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
   background-image: url(../image/background.gif);
   background-repeat: repeat-x repeat-y;
   background-attachment: fixed;
@@ -23,6 +25,8 @@ h1 {
 
 /* ゲーム画面 */
 canvas {
+  display: block;
+  margin: 0 auto;
   background: #feecf2;
   border: 2px solid rgb(255, 153, 214);
   touch-action: none;
